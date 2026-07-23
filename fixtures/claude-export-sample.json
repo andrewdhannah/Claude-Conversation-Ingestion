@@ -1,0 +1,62 @@
+{
+  "conversations": [
+    {
+      "uuid": "conv-claude-001",
+      "name": "CarbideFrame Architecture Discussion",
+      "created_at": "2026-07-20T10:00:00Z",
+      "updated_at": "2026-07-20T11:30:00Z",
+      "chat_messages": [
+        {
+          "uuid": "msg-c1-001",
+          "sender": "human",
+          "content": "Can you explain the current CarbideFrame project structure and how the governance layers work together?",
+          "created_at": "2026-07-20T10:00:00Z",
+          "parent_message_uuid": null
+        },
+        {
+          "uuid": "msg-c1-002",
+          "sender": "assistant",
+          "content": "CarbideFrame uses a layered governance architecture...\n\nThe key layers are:\n1. SessionStartup — protocol chain for agent startup\n2. The Librarian — governance MCP service\n3. Provider SDK — for extension providers like Working Bibliography\n\nEach layer has explicit contracts and evidence requirements.",
+          "created_at": "2026-07-20T10:00:30Z",
+          "parent_message_uuid": "msg-c1-001"
+        },
+        {
+          "uuid": "msg-c1-003",
+          "sender": "human",
+          "content": "How does Flightplan integrate with the governance model?",
+          "created_at": "2026-07-20T10:05:00Z",
+          "parent_message_uuid": "msg-c1-002"
+        },
+        {
+          "uuid": "msg-c1-004",
+          "sender": "assistant",
+          "content": "Flightplan provides token runway awareness...\n\nIt operates as an MCP server that reports Goose Scale levels and remaining budget. The governance integration is through evidence receipts that record session outcomes.",
+          "created_at": "2026-07-20T10:05:30Z",
+          "parent_message_uuid": "msg-c1-003"
+        }
+      ]
+    },
+    {
+      "uuid": "conv-claude-002",
+      "name": "Python refactoring review",
+      "created_at": "2026-07-19T14:00:00Z",
+      "updated_at": "2026-07-19T14:45:00Z",
+      "chat_messages": [
+        {
+          "uuid": "msg-c2-001",
+          "sender": "human",
+          "content": "Review this Python refactoring for the reconciliation engine",
+          "created_at": "2026-07-19T14:00:00Z",
+          "parent_message_uuid": null
+        },
+        {
+          "uuid": "msg-c2-002",
+          "sender": "assistant",
+          "content": "Looking at the code, I see several areas for improvement...\n\nThe main change would be extracting the domain checks into separate validator functions to improve testability.",
+          "created_at": "2026-07-19T14:00:30Z",
+          "parent_message_uuid": "msg-c2-001"
+        }
+      ]
+    }
+  ]
+}

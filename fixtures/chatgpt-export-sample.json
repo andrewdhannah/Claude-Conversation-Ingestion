@@ -1,0 +1,54 @@
+[
+  {
+    "conversation_id": "conv-gpt-001",
+    "title": "OpenWork MCP Server Architecture",
+    "create_time": 1721400000,
+    "update_time": 1721403600,
+    "mapping": {
+      "node-root": {
+        "id": "node-root",
+        "message": {
+          "id": "msg-root",
+          "author": {"role": "user"},
+          "content": {"content_type": "text", "parts": ["What's the architecture of the OpenWork MCP server and how does it connect to providers?"]},
+          "create_time": 1721400000
+        },
+        "parent": null,
+        "children": ["node-asst-1"]
+      },
+      "node-asst-1": {
+        "id": "node-asst-1",
+        "message": {
+          "id": "msg-asst-1",
+          "author": {"role": "assistant"},
+          "content": {"content_type": "text", "parts": ["The OpenWork MCP server uses a JSON-RPC 2.0 protocol over HTTP...\n\nKey components:\n1. MCP Server HTTP handler\n2. Capability registry\n3. Permission middleware\n4. Provider dispatch layer\n\nThe server exposes tools/list and tools/call endpoints, with all operations routing through governance checks before reaching providers."]},
+          "create_time": 1721400030
+        },
+        "parent": "node-root",
+        "children": ["node-followup"]
+      },
+      "node-followup": {
+        "id": "node-followup",
+        "message": {
+          "id": "msg-followup",
+          "author": {"role": "user"},
+          "content": {"content_type": "text", "parts": ["How does the Working Bibliography extension register its capabilities?"]},
+          "create_time": 1721400300
+        },
+        "parent": "node-asst-1",
+        "children": ["node-asst-2"]
+      },
+      "node-asst-2": {
+        "id": "node-asst-2",
+        "message": {
+          "id": "msg-asst-2",
+          "author": {"role": "assistant"},
+          "content": {"content_type": "text", "parts": ["The Working Bibliography extension registers through the capability manifest...\n\nIt declares its capabilities in mcp/capabilities.json, which the Librarian reads during extension handshake."]},
+          "create_time": 1721400330
+        },
+        "parent": "node-followup",
+        "children": []
+      }
+    }
+  }
+]
