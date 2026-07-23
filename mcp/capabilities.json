@@ -1,0 +1,53 @@
+{
+  "manifest_version": "1.0.0",
+  "extension_id": "claude-conversation-ingestion",
+  "declared_at": "2026-07-23T21:30:00Z",
+  "identity": {
+    "extension_id": "claude-conversation-ingestion",
+    "display_name": "Claude Conversation Ingestion",
+    "version": "0.1.0",
+    "classification": "knowledge_custody_provider",
+    "domain": "knowledge_custody",
+    "contract_id": "ci-librarian-contract-v1",
+    "contract_version": "1.0.0",
+    "declared_at": "2026-07-23T21:30:00Z"
+  },
+  "capabilities": [
+    {
+      "id": "conversation.import",
+      "display_name": "Import Conversation",
+      "tools": ["ci_import"],
+      "risk": "R1",
+      "description": "Import a Claude or ChatGPT conversation export JSON into the governed knowledge store. Produces provenance chain, artifact ownership record, and import receipt.",
+      "evidence_required": ["import_receipt", "artifact_record", "provenance_entry"],
+      "permission": "entity.self.artifact.register"
+    },
+    {
+      "id": "conversation.search",
+      "display_name": "Search Conversations",
+      "tools": ["ci_search"],
+      "risk": "R0",
+      "description": "Full-text search across imported conversations. Returns matching artifacts with provenance context.",
+      "evidence_required": [],
+      "permission": "entity.self.artifact.read"
+    },
+    {
+      "id": "conversation.export",
+      "display_name": "Export Conversations",
+      "tools": ["ci_export"],
+      "risk": "R1",
+      "description": "Export conversations as a provenance-bundled archive with artifact ownership and evidence chain.",
+      "evidence_required": ["export_manifest"],
+      "permission": "entity.self.artifact.read"
+    }
+  ],
+  "health_checks": [
+    {"id": "storage_accessible", "description": "Conversation store is readable and writable"},
+    {"id": "providers_available", "description": "Required external providers are reachable"},
+    {"id": "capabilities_declared", "description": "All declared capabilities have tool implementations"}
+  ],
+  "lifecycle": {
+    "state": "foundation",
+    "phases": ["foundation", "active", "deprecated", "revoked"]
+  }
+}

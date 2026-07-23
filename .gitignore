@@ -4,8 +4,14 @@ Thumbs.db
 
 # Build
 target/
+__pycache__/
+*.pyc
 *.db
 *.zip
+
+# Generated artifacts
+receipts/
+data/
 
 # IDE
 .idea/

@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-2020-12/schema",
+  "$id": "ci-provenance-chain-v1",
+  "title": "Conversation Provenance Chain",
+  "description": "Provenance chain tracking the lifecycle of conversation artifacts from source export through import, extraction, derivation, and linking.",
+  "type": "object",
+  "properties": {
+    "provenance_schema": {"type": "string", "const": "ci-provenance-chain-v1"},
+    "chain_id": {"type": "string"},
+    "import_session_id": {"type": "string"},
+    "source_export": {
+      "type": "object",
+      "properties": {
+        "provider": {"type": "string"},
+        "export_id": {"type": "string"},
+        "exported_at": {"type": "string", "format": "date-time"},
+        "file_hash": {"type": "string"}
+      },
+      "required": ["provider", "export_id"]
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entry_id": {"type": "string"},
+          "from": {"type": "string", "description": "Source artifact ID or 'source_export'"},
+          "to": {"type": "string", "description": "Target artifact ID"},
+          "transformation": {
+            "type": "string",
+            "enum": ["import", "extract", "derive", "link", "export"]
+          },
+          "transformation_detail": {"type": "string"},
+          "recorded_at": {"type": "string", "format": "date-time"},
+          "evidence_ref": {"type": "string", "description": "Link to evidence record"}
+        },
+        "required": ["entry_id", "from", "to", "transformation", "recorded_at"]
+      }
+    },
+    "terminal_artifacts": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Artifact IDs at the end of the chain (most derived)"
+    }
+  },
+  "required": ["provenance_schema", "chain_id", "import_session_id", "source_export", "entries"]
+}

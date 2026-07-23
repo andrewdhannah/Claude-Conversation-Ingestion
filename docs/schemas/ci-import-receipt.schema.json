@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-2020-12/schema",
+  "$id": "ci-import-receipt-v1",
+  "title": "Conversation Import Receipt",
+  "description": "Receipt generated for every conversation import operation. Records source, artifacts created, provenance chain, and governance outcome.",
+  "type": "object",
+  "properties": {
+    "receipt_schema": {"type": "string", "const": "ci-import-receipt-v1"},
+    "receipt_id": {"type": "string"},
+    "imported_at": {"type": "string", "format": "date-time"},
+    "source": {
+      "type": "object",
+      "properties": {
+        "provider": {"type": "string", "enum": ["claude", "chatgpt"]},
+        "export_id": {"type": "string"},
+        "exported_at": {"type": "string", "format": "date-time"},
+        "file_hash": {"type": "string", "description": "SHA-256 of original export file"}
+      },
+      "required": ["provider", "export_id"]
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "artifact_id": {"type": "string"},
+          "artifact_type": {"type": "string", "enum": ["conversation", "message", "project_match", "extracted_entity"]},
+          "ownership": {"type": "string"},
+          "provenance_id": {"type": "string"}
+        },
+        "required": ["artifact_id", "artifact_type", "provenance_id"]
+      }
+    },
+    "provenance_chain": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entry_id": {"type": "string"},
+          "from": {"type": "string"},
+          "to": {"type": "string"},
+          "transformation": {"type": "string", "enum": ["import", "extract", "derive", "link"]},
+          "recorded_at": {"type": "string", "format": "date-time"}
+        },
+        "required": ["entry_id", "from", "to", "transformation"]
+      }
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "entity": {"type": "string"},
+        "decision_id": {"type": "string"},
+        "permission": {"type": "string"},
+        "outcome": {"type": "string", "enum": ["allowed", "denied"]}
+      },
+      "required": ["entity", "permission", "outcome"]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "References to governed evidence records"
+    }
+  },
+  "required": ["receipt_schema", "receipt_id", "imported_at", "source", "artifacts", "provenance_chain", "governance"]
+}

@@ -1,0 +1,53 @@
+{
+  "contract_schema": "extension-librarian-contract-v1",
+  "contract_id": "ci-librarian-contract-v1",
+  "contract_version": "1.0.0",
+  "extension_id": "claude-conversation-ingestion",
+  "display_name": "Claude Conversation Ingestion",
+  "established": "2026-07-23T21:30:00Z",
+  "governance_profile": "full",
+  "extension_type": "reference_implementation",
+  "owner": "Andrew Hannah",
+  "capabilities": {
+    "conversation.import": {
+      "risk": "R1",
+      "flows": ["entity -> decision -> permission -> custody -> execute -> evidence -> receipt"],
+      "boundary": "import_only",
+      "storage": "ci_store",
+      "evidence_types": ["import_receipt", "artifact_record", "provenance_entry"]
+    },
+    "conversation.search": {
+      "risk": "R0",
+      "flows": ["entity -> permission -> execute -> evidence"],
+      "boundary": "read_only",
+      "storage": "ci_store (read)"
+    },
+    "conversation.export": {
+      "risk": "R1",
+      "flows": ["entity -> decision -> permission -> execute -> evidence -> receipt"],
+      "boundary": "export_only",
+      "storage": "ci_store (read)",
+      "evidence_types": ["export_manifest"]
+    }
+  },
+  "storage": {
+    "type": "local_db",
+    "location": "data/conversation.db",
+    "ownership": "entity.tracked",
+    "backup_protocol": "standard"
+  },
+  "provenance": {
+    "chain_type": "import_session",
+    "entries_required": true,
+    "linked_to": ["source_export", "import_session", "artifact_record"]
+  },
+  "access_control": {
+    "read": "entity.self.artifact.read",
+    "write": "entity.self.artifact.register",
+    "admin": "entity.admin"
+  },
+  "versioning": {
+    "policy": "semantic",
+    "migration_required": true
+  }
+}

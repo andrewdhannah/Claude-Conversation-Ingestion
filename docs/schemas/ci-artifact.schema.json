@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-2020-12/schema",
+  "$id": "ci-artifact-v1",
+  "title": "Conversation Artifact",
+  "description": "A governed artifact produced from a conversation import. Tracks ownership, provenance, content hash, and lifecycle state.",
+  "type": "object",
+  "properties": {
+    "artifact_schema": {"type": "string", "const": "ci-artifact-v1"},
+    "artifact_id": {"type": "string"},
+    "artifact_type": {
+      "type": "string",
+      "enum": ["conversation", "message", "project_match", "extracted_entity"]
+    },
+    "source_export": {
+      "type": "object",
+      "properties": {
+        "provider": {"type": "string"},
+        "export_id": {"type": "string"},
+        "conversation_id": {"type": "string"}
+      },
+      "required": ["provider", "export_id"]
+    },
+    "ownership": {
+      "type": "object",
+      "properties": {
+        "owner_entity": {"type": "string"},
+        "import_session_id": {"type": "string"},
+        "claimed_at": {"type": "string", "format": "date-time"}
+      },
+      "required": ["owner_entity", "import_session_id"]
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "title": {"type": "string"},
+        "created_at": {"type": "string"},
+        "message_count": {"type": "integer"},
+        "content_hash": {"type": "string", "description": "SHA-256 of the content"}
+      }
+    },
+    "provenance_id": {"type": "string", "description": "Link to the provenance chain entry"},
+    "lifecycle_state": {
+      "type": "string",
+      "enum": ["active", "stale", "archived", "deleted"]
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "last_accessed_at": {"type": ["string", "null"], "format": "date-time"}
+  },
+  "required": ["artifact_schema", "artifact_id", "artifact_type", "source_export", "ownership", "provenance_id"]
+}
