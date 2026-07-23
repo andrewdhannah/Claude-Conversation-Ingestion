@@ -20,7 +20,7 @@
 ```
 Conversation Export
         ↓
-Import Handler (src/import/handler.py)
+Import Handler (src/importer/handler.py)
         ↓
 Provenance Chain (src/provenance/chain.py)
         ↓
