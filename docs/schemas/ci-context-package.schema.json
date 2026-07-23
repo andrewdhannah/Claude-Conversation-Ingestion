@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-2020-12/schema",
+  "$id": "ci-context-package-v1",
+  "title": "Conversation Context Package",
+  "description": "A governed context package documenting what information was disclosed to which model class and why. Enables auditable answers to: 'What did the AI know when it made this decision?'",
+  "type": "object",
+  "properties": {
+    "package_schema": {"type": "string", "const": "ci-context-package-v1"},
+    "package_id": {"type": "string"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "target": {
+      "type": "object",
+      "properties": {
+        "model_class": {"type": "string", "enum": ["local", "reasoning", "review"]},
+        "capability": {"type": "string"},
+        "task": {"type": "string"},
+        "token_budget": {"type": "integer", "description": "Maximum tokens this model class may receive"}
+      },
+      "required": ["model_class", "capability", "task"]
+    },
+    "disclosure": {
+      "type": "object",
+      "properties": {
+        "included_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "artifact_id": {"type": "string"},
+              "reason": {"type": "string", "description": "Why this artifact was included"},
+              "permission_basis": {"type": "string", "description": "Which permission allowed disclosure"}
+            },
+            "required": ["artifact_id", "reason"]
+          }
+        },
+        "excluded_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "artifact_id": {"type": "string", "description": "Artifact considered but excluded"},
+              "reason": {"type": "string", "description": "Why this artifact was excluded"}
+            },
+            "required": ["artifact_id", "reason"]
+          }
+        },
+        "estimated_tokens": {"type": "integer"},
+        "within_budget": {"type": "boolean"}
+      },
+      "required": ["estimated_tokens", "within_budget"]
+    },
+    "context": {
+      "type": "object",
+      "description": "The actual minimized context delivered to the model",
+      "properties": {
+        "task": {"type": "string"},
+        "capability": {"type": "string"},
+        "contracts": {"type": "array"},
+        "constraints": {"type": "array", "items": {"type": "string"}},
+        "decisions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "decision_id": {"type": "string"},
+              "outcome": {"type": "string"},
+              "permission": {"type": "string"}
+            }
+          }
+        },
+        "provenance": {"type": "array"}
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "References to governed evidence records for this disclosure"
+    }
+  },
+  "required": ["package_schema", "package_id", "generated_at", "target", "disclosure", "context", "evidence_refs"]
+}
